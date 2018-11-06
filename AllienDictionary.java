@@ -4,7 +4,7 @@ public class AllienDictionary {
     /**
     BFS 最优解*/
     public String alienOrder(String[] words) {
-        Map<Character, Set<Character>> map=new HashMap<>();
+        Map<Character, Set<Character>> map=new HashMap<>(); //Graph
         Map<Character, Integer> degree=new HashMap<>();
         String result="";
         if(words==null || words.length==0) return result;
@@ -17,22 +17,22 @@ public class AllienDictionary {
         }
 
         // 构建关系Graph map，更新degree map
-        for(int i=0; i<words.length-1; i++){
+        for(int i=0; i<words.length-1; i++){ //每个单词
             String cur=words[i];
             String next=words[i+1];
             int length=Math.min(cur.length(), next.length());
-            for(int j=0; j<length; j++){
+            for(int j=0; j<length; j++){ //单词每个字符，上下两个词vertical对应比较
                 char c1=cur.charAt(j);
                 char c2=next.charAt(j);
                 if(c1!=c2){
-                    Set<Character> set=new HashSet<Character>();
+                    Set<Character> set=new HashSet<Character>();//每次遇见不同字符，都新建set，存c1的所有next
                     if(map.containsKey(c1)) set=map.get(c1);
                     if(!set.contains(c2)){
                         set.add(c2);
                         map.put(c1, set);
-                        degree.put(c2, degree.get(c2)+1);
+                        degree.put(c2, degree.get(c2)+1); //更新degree
                     }
-                    break;
+                    break; //记得break
                 }
             }
         }
